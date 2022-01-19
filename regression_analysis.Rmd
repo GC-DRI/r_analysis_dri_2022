@@ -1,0 +1,85 @@
+---
+title: "Intro to Regression Analysis"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Welcome
+
+In this workshop, We will explore the basic regression analysis in R. The datasets consist of the `spotify_lyrics` data modified from [the kaggle dataset](https://www.kaggle.com/zaheenhamidani/ultimate-spotify-tracks-db) and the `spotify` data comprised of the musical attributes of weekly [Billboard Hot 100](https://www.billboard.com/charts/billboard-200/) songs from February 2019 to February 2021. Both of the datasets were mined using the [spotifyr](https://www.rcharlie.com/spotifyr/) interface to the [Spotify Web API](https://developer.spotify.com/documentation/web-api/)*. We will have to load the following packages in this workshop: `tidyverse`,`GGally`,`leaps`. 
+
+Learning objectives: 
+
+- Exploratory data analysis
+
+- Fit regression models with the `lm` function 
+
+- Automatic model selection (package `leaps`)
+
+- Prediction
+
+- Interaction terms 
+
+Along the way, you will master the core functions for running linear regression in R and be able to interpret the regression result generated in R: 
+
+- `pairs()` and `ggpairs()`, which let you explore the relationships among variables 
+
+- `glimpse` and `summary()`, which let you understand the structure of the dataset and descriptive statistics of the variables. 
+
+- `%>%`, which organizes your code into reader-friendly "pipes" 
+
+- `step`, which helps with automatic model selection 
+
+First, let's load the `tidyverse` suite of packages and the `here` package. The `here` package simplifies the way of reproducing file paths. 
+
+```{r load-package, warning = FALSE,message= FALSE}
+library(tidyverse)
+library(here)
+library(GGally)
+library(leaps)
+```
+
+## Explore Spotify data
+We'll first analyze a Spotify dataset and the variables are:
+
+- energy: Energy is a measure from 0.0 to 1.0 and represents a perceptual measure of intensity and activity. Typically, energetic tracks feel fast, loud, and noisy.
+
+- loudness: 
+
+- tempo:
+
+- danceability: 
+
+- lyrics:
+
+More details about the variable can be found at 
+
+```{r spotify, message = FALSE}
+spo <- read_csv("https://raw.githubusercontent.com/YuxiaoLuo/r_analysis_dri_2022/main/data/spotify_lyrics.csv")
+glimpse(spo)
+```
+
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+
+
+
+
+
+
+
+
+
