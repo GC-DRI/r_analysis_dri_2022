@@ -3,7 +3,6 @@ title: "Regression Warm-up"
 author: "Yuxiao Luo"
 output: 
   html_document: 
-    df_print: paged
     keep_md: yes
 ---
 
