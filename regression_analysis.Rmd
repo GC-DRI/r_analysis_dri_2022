@@ -1,6 +1,11 @@
 ---
 title: "Intro to Regression Analysis"
-output: github_document
+author: "Yuxiao Luo"
+output:
+  html_document:
+    df_print: paged
+  html_doucment:
+    keep_md: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -27,7 +32,7 @@ Along the way, you will master the core functions for running linear regression 
 
 - `pairs()` and `ggpairs()`, which let you explore the relationships among variables 
 
-- `glimpse` and `summary()`, which let you understand the structure of the dataset and descriptive statistics of the variables. 
+- `glimpse` and `summary()`, which let you understand the structure of the dataset and descriptive statistics of the variables 
 
 - `%>%`, which organizes your code into reader-friendly "pipes" 
 
@@ -35,51 +40,183 @@ Along the way, you will master the core functions for running linear regression 
 
 First, let's load the `tidyverse` suite of packages and the `here` package. The `here` package simplifies the way of reproducing file paths. 
 
-```{r load-package, warning = FALSE,message= FALSE}
+```{r load-package, warning = FALSE, message= FALSE, error = FALSE}
 library(tidyverse)
 library(here)
 library(GGally)
 library(leaps)
 ```
 
-## Explore Spotify data
+### Spotify data
 We'll first analyze a Spotify dataset and the variables are:
 
-- energy: Energy is a measure from 0.0 to 1.0 and represents a perceptual measure of intensity and activity. Typically, energetic tracks feel fast, loud, and noisy.
+- energy: Energy is a measure from 0.0 to 1.0 and represents a perceptual measure of intensity and activity. Typically, energetic tracks feel fast, loud, and noisy
 
-- loudness: 
+- loudness: The overall loudness of a track in decibels (dB). Loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks
 
-- tempo:
+- tempo: The overall estimated tempo of a track in beats per minute (BPM)
 
-- danceability: 
+- danceability: Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity
 
-- lyrics:
+- lyrics: lyrics in the song                                       
 
-More details about the variable can be found at 
+More details about the variables can be found at [here](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/data/meta_spotify.md). In our case, the dependent/response variable will be **energy**. 
 
-```{r spotify, message = FALSE}
+Let's read the dataset first. You can load it either online or locally. 
+
+```{r load-spotify, message = FALSE}
+# if you haven't downloaded the dataset, load it online
 spo <- read_csv("https://raw.githubusercontent.com/YuxiaoLuo/r_analysis_dri_2022/main/data/spotify_lyrics.csv")
+
+# if you have the dataset locally, load it in the data folder
+spo <- read_csv(here("data", "spotify_lyrics.csv"))
+
 glimpse(spo)
 ```
 
+### Exploratory data analysis
+The function `pairs` creates a scatterplot matrix for **numeric** variables:
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r scatterplot}
+spo_plot <- spo %>% select(-genre, -lyrics)
+pairs(spo_plot)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+The dataset **spo_plot** excludes the variables **genre** and **lyrics**. We can get quick and dirty summaries of the variables with summary. An advantage is that it's able to handle categorical variables, such as **genre**: 
+
+```{r}
+summary(spo)
+```
+
+The function `ggpairs` in `library(GGally)` produces the equivalent plot, but with `ggplot2`: 
+
+```{r, message = FALSE}
+ggpairs(spo_plot)
+```
+
+### Fitting regression models with the lm function
+Fitting regression models with R is easy as R was developed originally as a statistical/mathematical computing language. For example, we can fit a model where the response variable is **energy** and the predictors are **tempo** and **loudness**. 
 
 
+```{r fitting-regression}
+lm_spo <- lm(energy ~ tempo + loudness, spo)
 
+lm_spo
+```
 
+If we call the object `lm_spo`, it will return us coefficients. If we want details about p-values, R-squared, and more, we can get them with `summary()`.
 
+```{r regression-result}
+summary(lm_spo)
+```
 
+We can get diagnostic plots by plotting the model. That will give us 4 diagnostic plots. We can arrange them in a figure with x rows and y columns with `par(mfrow=c(x,y))`.
 
+```{r plotting1}
+par(mfrow=c(2,2))
+plot(lm_spo)
+```
 
+If we want them in 1 row and 4 columns: 
+
+```{r plotting2}
+par(mfrow=c(1,4))
+plot(lm_spo)
+```
+
+The `par(mfrow=c(x,y))` function can arrange figures with multiple rows and columns of plots in `library(graphics)`. But it doesn't work with `ggplot2`, in which `grid.arrange` is used to do the same thing. 
+
+We can extract diagnostics from the regression model. For example, if we are interested in Cook's distances, which is useful for identifying influential data points and outliers in the X values, we can extract Cook's distances and plot them against observation number. 
+
+A general rule of thumb is that any point with a Cook's distance over 4/n (where n is the number of observations) is considered to be an outlier. Please note that just because a data point is influential doesn't mean it should necessarily be deleted. You can find more the interpretation of it [here](https://www.statology.org/how-to-identify-influential-data-points-using-cooks-distance/).
+
+```{r cookdistance}
+cookd <- cooks.distance(lm_spo)
+plot(cookd)
+abline(h = 4/nrow(spo), lty = 2, col = "steelblue") # add cutoff line
+```
+
+Other useful functions are `hatvalues` (for leverages), `residuals` (for residuals), and `rstandard` (for standardized residuals). 
+
+Leverage is used to identify outliers with respect to the independent variables and high-leverage points have the potential to cause large changes in the parameter estimates when they are deleted. More details about leverage click [here](https://handwiki.org/wiki/Leverage_(statistics)).
+
+Another important assumption check is the multicollinearity of the independent variables. We can use `vif()` in `library(car)` to test it. 
+
+```{r vif, warning=FALSE}
+car::vif(lm_spo)
+```
+
+The rule of thumb is that VIFs exceeding 4 warrant further investigation, while VIFs exceeding 10 are signs of serious multicollinearity. More statistical details can be found [here](https://online.stat.psu.edu/stat462/node/180/).
+
+### Practice of fitting a regression model
+
+Here, we have a NYC restaurant dataset for you to practice what we have just learned. You'll analyze a dataset in Sheather (2009) that has information about 150 Italian restaurants in Manhattan that were open in 2001 (some of them are closed now). The variables are:
+
+- Case: case-indexing variable 
+
+- Restaurant: name of the restaurant 
+
+- Price: average price of meal and a drink 
+
+- Food: average Zagat rating of the quality of the food (from 0 to 25)
+
+- Decor: same as above, but with quality of the decor
+
+- Service: same as above, but with quality of service
+
+- East: it is equal to East if the restaurant is on the East Side (i.e. east of Fifth Ave) and West otherwise.
+
+In the practice problem, the response variable will be **Price** and the predictors are **Food**, **Decor**, **Service**, **East**. You will have to:
+
+1. Load the dataset in R. 
+  - Using the link: `read_csv('https://raw.githubusercontent.com/YuxiaoLuo/r_analysis_dri_2022/main/data/nyc.csv')`
+  - Or load it locally: `read_csv(here('data', 'nyc.csv'))` 
+
+2. Explore the relationship between variables
+
+3. Run a linear regression model and generate the regression result
+
+### Solution to the Practice Problem 
+
+Load the dataset into R and take a look at the variables. 
+
+```{r problem-read, message=FALSE}
+nyc <- read_csv('https://raw.githubusercontent.com/YuxiaoLuo/r_analysis_dri_2022/main/data/nyc.csv')
+glimpse(nyc)
+```
+
+Further explore the data with `summary` and `ggpairs`.
+
+```{r problem-summary}
+summary(nyc)
+```
+
+Create a dataset nycplot excludes the variables Case, Restaurant, and East. 
+
+```{r problem-matrix, message=FALSE}
+nycplot <- nyc %>% select(-Case, -Restaurant, -East)
+ggpairs(nycplot)
+```
+
+Do you see any interesting patterns?
+
+```{r problem-model}
+lm_nyc <- lm(Price ~ Food + Decor + Service + East, data = nyc)
+summary(lm_nyc)
+```
+
+Run the diagnostic graphs and VIF checks.
+
+```{r problem-check}
+par(mfrow=c(2,2))
+plot(lm_nyc)
+```
+
+```{r problem-checkVIF}
+car::vif(lm_nyc)
+```
+
+Read the regression result, what conclusions can you draw from it? 
 
 
 
