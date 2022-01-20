@@ -171,25 +171,39 @@ pre code {
 
 
 <p>This section is part of the R Data Analysis Workshop and aims to introduce some basic concepts for regression analysis in R. If you want to learn more in details, I would recommend you read the <a href="https://www.econometrics-with-r.org/index.html">Introduction to Econometrics with R</a>, a free e-book.</p>
-<div id="data-types" class="section level2">
-<h2>Data Types</h2>
+<div id="variable-types" class="section level2">
+<h2>Variable Types</h2>
 <ul>
-<li><p>Discrete</p></li>
-<li><p>Dontinuous</p></li>
-<li><p>Binary</p></li>
-<li><p>Categorical</p></li>
+<li><p>Discrete: A discrete variable is a variable whose value is obtained by counting. Examples: number of students present.</p></li>
+<li><p>Continuous: A continuous variable is a variable whose value is obtained by measuring, i.e., one which can take on an uncountable set of values.</p></li>
+<li><p>Binary: Binary variables are variables which only take two values. For example, Male or Female, True or False and Yes or No. You can also construct a binary variable for age like Adult (<span class="math inline">\(&gt;18\)</span> yrs old) or Non-Adult (<span class="math inline">\(&lt;18\)</span> yrs old).</p></li>
+<li><p>Categorical: Categorical variables represent types of data which may be divided into groups. Examples of categorical variables are race, sex, age group, and educational level.</p></li>
 </ul>
 </div>
-<div id="why-regression-model" class="section level2">
-<h2>Why Regression Model?</h2>
+<div id="why-regression-analysis" class="section level2">
+<h2>Why Regression Analysis?</h2>
+<p>Regression analysis is a statistical technique for studying linear relationships. Typically, a regression analysis is done for one of two purposes: In order to predict the value of the dependent variable for individuals for whom some information concerning the explanatory variables is available, or in order to estimate the effect of some explanatory variable on the dependent variable.</p>
+<ul>
+<li><p>Making individual predictions. If we know the value of several explanatory variables for an individual, but do not know the value of that individual’s dependent variable, we can use the prediction equation to estimate the value of the dependent variable for that individual.</p></li>
+<li><p>Estimating the effect of an explanatory variable on the dependent variable. In order to estimate the “pure” effect of some explanatory variable on the dependent variable, we want to control for as many other effects as possible. That is, we’d like to see how our prediction would change for an individual if this explanatory variable were different, while all others aspects of the individual were kept the same.</p></li>
+<li><p>Determining whether there is evidence that an explanatory variable belongs in a regression model. Given a specific model, one might wonder whether a particular one of the explanatory variables really “belongs” in the model; equivalently, one might ask if this variable has a true regression coefficient different from 0 (and therefore would affect predictions).</p></li>
+<li><p>Measuring the explanatory power of a model. <a href="https://www.kellogg.northwestern.edu/faculty/weber/jhu/statistics/regression.htm">(Reference)</a></p></li>
+</ul>
 </div>
 <div id="key-terms-in-regression-model" class="section level2">
 <h2>Key Terms in Regression Model</h2>
 <ul>
-<li><p>Coefficient</p></li>
-<li><p>Correlation</p></li>
-<li><p>Independent/explanatory variable (predictor)</p></li>
-<li><p>Dependent/response variable</p></li>
+<li><p>Correlation: is a statistic that measures the degree to which two securities move in relation to each other. Or a statistical relationship, whether causal or not, between two random variables or bivariate data.</p></li>
+<li><p>Independent/explanatory variable (predictor):The independent variable is the cause. Its value is independent of other variables in your study.</p>
+<ul>
+<li>In experiment, your independent variable is the treatment that you vary between groups: which type of pill the patient receives.</li>
+</ul></li>
+<li><p>Dependent/response variable: The dependent variable is the effect. Its value depends on changes in the independent variable.</p>
+<ul>
+<li><p>In experiment, your dependent variable is the outcome that you measure: the blood pressure of the patients.</p></li>
+<li><p>In other types of research, researchers have to find already-existing examples of the independent variable, and investigate how changes in this variable affect the dependent variable.</p></li>
+</ul></li>
+<li><p>Regression coefficient: in a regression analysis, the weight associated with a unit change in a specific independent (predictor) variable on the dependent (outcome) variable, given the relationship of that predictor to other independent variables already in the model.</p></li>
 </ul>
 </div>
 <div id="assumptions-of-multiple-linear-regression" class="section level2">
@@ -214,18 +228,37 @@ pre code {
 <div id="regression-performance" class="section level2">
 <h2>Regression Performance</h2>
 <ul>
-<li><p>R-squared</p></li>
-<li><p>AIC (Akaike Information Criterion)</p></li>
-<li><p>BIC (Baysian Information Criterion)</p></li>
+<li><p>R-squared: R-squared (<span class="math inline">\(R^2\)</span>) is a statistical measure that represents the proportion of the variance for a dependent variable that’s explained by an independent variable or variables in a regression model.</p>
+<ul>
+<li>In short, larger R-squared means the independent variables can explain more proportion of the variance for the dependent variable.</li>
+<li>Math detail is <a href="https://en.wikipedia.org/wiki/Coefficient_of_determination">here</a>.</li>
+</ul></li>
+<li><p>AIC (Akaike Information Criterion): AIC is an estimator of out-of-sample prediction error and thereby relative quality of statistical models for a given set of data. Given a collection of models for the data, AIC estimates the quality of each model, relative to each of the other models. Thus, AIC provides a means for model selection.</p>
+<ul>
+<li>AIC is typically used when you do not have access to out-of-sample data and want to decide between multiple different model types, or for time convenience.</li>
+<li>The preferred model is the one with the lowest AIC value. The AIC methodology attempts to find the model that best explains the data with a minimum of free parameters.</li>
+<li>Mathematical detail is <a href="https://en.wikipedia.org/wiki/Akaike_information_criterion">here</a>.</li>
+</ul></li>
+<li><p>BIC (Baysian Information Criterion): BIC is a criterion for model selection among a finite set of models. It is based, in part, on the likelihood function, and it is closely related to AIC.</p>
+<ul>
+<li>When fitting models, it is possible to increase the likelihood by adding parameters, but doing so may result in overfitting. The BIC resolves this problem by introducing a penalty term for the number of parameters in the model. The penalty term is larger in BIC than in AIC.</li>
+<li>When picking from several models, ones with</li>
+<li>Mathematical detail is <a href="https://www.immagic.com/eLibrary/ARCHIVES/GENERAL/WIKIPEDI/W120607B.pdf">here</a>.</li>
+</ul></li>
 </ul>
 </div>
 <div id="hypothesis-testing" class="section level2">
 <h2>Hypothesis Testing</h2>
 <ul>
-<li><p>Null hypothesis</p></li>
-<li><p>Alternative hypothesis</p></li>
-<li><p>Test statistic</p></li>
-<li><p>P-value</p></li>
+<li><p>Null hypothesis (<span class="math inline">\(H_0\)</span>): The statement being tested in a test of statistical significance is called the null hypothesis. The test of significance is designed to assess the strength of the evidence against the null hypothesis. Usually, the null hypothesis is a statement of ‘no effect’ or ‘no difference’.&quot; Ex., <span class="math inline">\(H_0: \mu_1 = \mu_2\)</span></p></li>
+<li><p>Alternative hypothesis (<span class="math inline">\(H_1\)</span>): The statement that is being tested against the null hypothesis is the alternative hypothesis. Ex., <span class="math inline">\(H_1: \mu_1 \neq \mu_2\)</span></p></li>
+<li><p>Test statistic: A test statistic is a statistic (a quantity derived from the sample) used in statistical hypothesis testing. Two widely used test statistics are the t-statistic and the F-test. More details <a href="https://en.wikipedia.org/wiki/Test_statistic">here</a>.</p></li>
+<li><p>P-value: <strong>P-value</strong> is the probability of obtaining test results at least as extreme as the results actually observed, under the assumption that the null hypothesis is correct.</p>
+<ul>
+<li>A very small p-value means that such an extreme observed outcome would be very unlikely under the null hypothesis.</li>
+<li>Reporting p-values of statistical tests is common practice in academic publications of many quantitative fields. Since the precise meaning of p-value is hard to grasp, <a href="https://en.wikipedia.org/wiki/Misuse_of_p-values">misuse is widespread</a> and has been a major topic in <a href="https://en.wikipedia.org/wiki/Metascience">metascience</a>.</li>
+</ul></li>
+<li><p>Significance level for the test (<span class="math inline">\(\alpha\)</span>): is the probability of rejecting the null hypothesis when it is true. For example, a significance level of 0.05 indicates a 5% risk of concluding that a difference exists when there is no actual difference. More detail is <a href="https://blog.minitab.com/en/adventures-in-statistics-2/understanding-hypothesis-tests-significance-levels-alpha-and-p-values-in-statistics">here</a>.</p></li>
 </ul>
 <p><a href="https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/regression_analysis.md">Next: Regression Analysis &gt;&gt;&gt;</a></p>
 </div>

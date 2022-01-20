@@ -3,7 +3,6 @@ title: "Intro to Regression Analysis"
 author: "Yuxiao Luo"
 output:
   html_document:
-    df_print: paged
     keep_md: yes
 ---
 
@@ -63,7 +62,7 @@ More details about the variables can be found at [here](https://github.com/Yuxia
 
 Let's read the dataset first. You can load it either online or locally. 
 
-```{r load-spotify, message = FALSE}
+```{r load-spotify, message=FALSE, paged.print=TRUE}
 # if you haven't downloaded the dataset, load it online
 spo <- read_csv("https://raw.githubusercontent.com/YuxiaoLuo/r_analysis_dri_2022/main/data/spotify_lyrics.csv")
 
@@ -197,7 +196,7 @@ nycplot <- nyc %>% select(-Case, -Restaurant, -East)
 ggpairs(nycplot)
 ```
 
-Do you see any interesting patterns?
+Do you see any interesting patterns in the matrix? Now, let's run the regression based on the proposed model, where **Price** is the dependent variable and the predictors are **Food**, **Decor**, **Service**, and **East**. 
 
 ```{r problem-model}
 lm_nyc <- lm(Price ~ Food + Decor + Service + East, data = nyc)
