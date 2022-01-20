@@ -4,7 +4,6 @@ author: "Yuxiao Luo"
 output: 
   html_document: 
     df_print: paged
-  html_doucment: 
     keep_md: yes
 ---
 
