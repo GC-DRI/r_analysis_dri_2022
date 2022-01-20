@@ -1,7 +1,5 @@
 # Meta Restaurant
 
-Yuxiao Luo
-
 ## Metadata NYC Restaurant 
 
 This dataset comes from Sheather (2009) that has information about 150 Italian restaurants in Manhattan that were open in 2001 (some of them are closed now). The variables are: 

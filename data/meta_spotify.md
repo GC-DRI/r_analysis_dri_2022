@@ -1,7 +1,5 @@
 # Meta Spotify
 
-Yuxiao Luo
-
 ## Metadata Spotify
 This is a data description file that explains each variable in the dataset. The content is adapted from the [R Data Anlaysis Workshop](https://github.com/GC-DRI/r_data_analysis_2021) by [Connor French](https://github.com/connor-french). 
 
