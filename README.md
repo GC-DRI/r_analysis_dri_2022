@@ -2,9 +2,11 @@
 
 - [Data Wrangling](https://github.com/GC-DRI/r_data_analysis_2021)
 
-- [Regression Warmup](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/regression_warmup.md)
+- Data Analysis
 
-- [Regression Analysis](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/regression_analysis.md)
+  - [Regression Warmup](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/regression_warmup.md)
+
+  - [Regression Modeling](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/regression_analysis.md)
 
 - Text Analysis
 
@@ -19,5 +21,7 @@
   - Spotify 
   
   - Titanic 
+  
+  - Genius
 
 [\[>Enter<\]](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/regression_warmup.md)
