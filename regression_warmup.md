@@ -112,6 +112,5 @@ independent variable in the analysis.
 
 -   P-value
 
-[
-*N**e**x**t* : *R**e**g**r**e**s**s**i**o**n**A**n**a**l**y**s**i**s*
-](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/regression_analysis.md)
+[Next: Regression Analysis
+&gt;&gt;&gt;](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/regression_analysis.md)

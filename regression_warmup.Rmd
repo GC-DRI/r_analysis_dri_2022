@@ -75,4 +75,4 @@ Moreover, multiple linear regression requires at least two explanatory variables
 
 - P-value
 
-[\[Next: Regression Analysis\]](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/regression_analysis.md)
+[Next: Regression Analysis >>>](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/regression_analysis.md)
