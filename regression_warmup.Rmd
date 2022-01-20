@@ -3,6 +3,8 @@ title: "Regression Warm-up"
 author: "Yuxiao Luo"
 output: 
   html_document:
+    df_print: paged
+  html_doucment:
     keep_md: yes
 ---
 
@@ -72,3 +74,5 @@ Moreover, multiple linear regression requires at least two explanatory variables
 - Test statistic
 
 - P-value
+
+[Next: Regression Analysis](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/regression_analysis.md)
