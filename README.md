@@ -12,4 +12,4 @@
   
   - Titanic 
 
-[\[>>>Enter<<<\]](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/regression_warmup.md)
+[\[>Enter<\]](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/regression_warmup.md)
