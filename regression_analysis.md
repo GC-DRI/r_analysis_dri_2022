@@ -18,6 +18,10 @@ Learning objectives:
 
 - Fit regression models with the `lm` function 
 
+- Fit regression models with the `glm` function  
+
+In the future: 
+
 - Automatic model selection (package `leaps`)
 
 - Prediction
@@ -187,6 +191,15 @@ plot(lm_spo)
 
 ![](regression_analysis_files/figure-html/plotting1-1.png)<!-- -->
 
+Plot 1 in the top left (Residuals vs Fitted) shows:
+  1. Whether linearity holds. This is indicated by the mean residual value for every fitted value region being close to 0. In R this is indicated by the red line being close to the dashed line.
+  2. Whether homoskedasticity holds. The spread of residuals should be approximately the same across the x-axis.
+  3. Whether there are outliers. This is indicated by some ‘extreme’ residuals that are far from the rest. [Reference](https://boostedml.com/2019/03/linear-regression-plots-fitted-vs-residuals.html)
+  
+Plot 2 in the top right (Q-Q Plot), is a graphical tool to help us assess if a set of data plausibly came from some theoretical distribution such as a Normal or exponential. Ex., If both sets of quantiles came from the same distribution, we should see the points forming a line that’s roughly straight. More detail is [here](https://data.library.virginia.edu/understanding-q-q-plots/).  
+  
+Plot 4 in the bottom right (Residuals vs Leverage) allows us to identify influential observations in a regression model. You can see the number of observation that is close to or exceed the Cook's distance in the graph. More detail is [here](https://www.statology.org/residuals-vs-leverage-plot/).
+
 If we want them in 1 row and 4 columns: 
 
 
@@ -232,6 +245,7 @@ The rule of thumb is that VIFs exceeding 4 warrant further investigation, while 
 
 ### Practice of fitting a regression model
 
+#### Problem 1
 Here, we have a NYC restaurant dataset for you to practice what we have just learned. You'll analyze a dataset in Sheather (2009) that has information about 150 Italian restaurants in Manhattan that were open in 2001 (some of them are closed now). The variables are:
 
 - Case: case-indexing variable 
@@ -250,16 +264,201 @@ Here, we have a NYC restaurant dataset for you to practice what we have just lea
 
 In the practice problem, the response variable will be **Price** and the predictors are **Food**, **Decor**, **Service**, **East**. You will have to:
 
-1. Load the dataset in R. 
-  - Using the link: `read_csv('https://raw.githubusercontent.com/YuxiaoLuo/r_analysis_dri_2022/main/data/nyc.csv')`
-  - Or load it locally: `read_csv(here('data', 'nyc.csv'))` 
+1. Load the dataset in R.
+
+  1. Using the link: `read_csv('https://raw.githubusercontent.com/YuxiaoLuo/r_analysis_dri_2022/main/data/nyc.csv')`
+  
+  2. Or load it locally: `read_csv(here('data', 'nyc.csv'))` 
 
 2. Explore the relationship between variables
 
 3. Run a linear regression model and generate the regression result
 
-### Solution to the Practice Problem 
+#### Problem 2
 
+Here we have another `cars` dataset located in the `library(caret)`, which is the Kelly Blue Book resale data for 2005 model year GM cars. Since this dataset is built inside the package, we can load it using `data(cars)`. There are many other datasets in `caret` and you can check them out [here](https://topepo.github.io/caret/data-sets.html).
+
+
+```r
+library(caret)
+data(cars)
+glimpse(cars)
+```
+
+```
+## Rows: 804
+## Columns: 18
+## $ Price       <dbl> 22661.05, 21725.01, 29142.71, 30731.94, 33358.77, 30315.17~
+## $ Mileage     <int> 20105, 13457, 31655, 22479, 17590, 23635, 17381, 27558, 25~
+## $ Cylinder    <int> 6, 6, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4~
+## $ Doors       <int> 4, 2, 2, 2, 2, 2, 2, 2, 2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4~
+## $ Cruise      <int> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1~
+## $ Sound       <int> 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0~
+## $ Leather     <int> 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1~
+## $ Buick       <int> 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0~
+## $ Cadillac    <int> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0~
+## $ Chevy       <int> 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0~
+## $ Pontiac     <int> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0~
+## $ Saab        <int> 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1~
+## $ Saturn      <int> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0~
+## $ convertible <int> 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0~
+## $ coupe       <int> 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0~
+## $ hatchback   <int> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0~
+## $ sedan       <int> 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1~
+## $ wagon       <int> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0~
+```
+
+What you need to do: 
+
+1. Load the dataset following the code above. 
+
+2. Try to find out the variable description using the Help window in R. (Hint: `?caret::cars`)
+
+3. Fit a regression model to explain/predict the **Price** of the GM cars. 
+
+4. Think about other regression models that makes sense to you and choose the one with the best performance ($R^2$). 
+
+5. Does your model perform better than the one I proposed (solution at the end of this page)? 
+
+### Fitting Logistic Regression with the glm function
+
+Logistic regression is used when the response variable is a binary (ex., 0 and 1). We will use a `titanic` dataset to demonstrate how to run a logistic regression in R using `glm` function. The variables are: 
+
+1. survived: Survival (0 = No; 1 = Yes)
+
+2. sex: Sex
+
+3. age: Age
+
+4. Pclass: Passenger Class (1 = 1st, 2 = 2nd, 3 = 3rd)
+
+We will use **survived** as response variable, and the other 3 as independent variables. 
+
+
+```r
+# if you haven't downloaded the dataset, load it online
+tita <- read_csv("https://raw.githubusercontent.com/YuxiaoLuo/r_analysis_dri_2022/main/data/titanic_train.csv")
+
+# if you have the dataset locally, load it in the data folder
+tita <- read_csv(here("data","titanic_train.csv"))
+```
+
+Explore the variables in `titanic` dataset. 
+
+
+```r
+glimpse(tita)
+```
+
+```
+## Rows: 500
+## Columns: 4
+## $ Survived <dbl> 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0~
+## $ Pclass   <dbl> 3, 1, 3, 1, 3, 3, 3, 2, 3, 1, 3, 3, 2, 3, 2, 2, 1, 3, 3, 2, 1~
+## $ Age      <dbl> 22, 38, 26, 35, 35, 2, 27, 14, 4, 58, 20, 39, 55, 31, 35, 34,~
+## $ Sex      <chr> "male", "female", "female", "female", "male", "male", "female~
+```
+
+Visualize the relationships among the variables. 
+
+
+```r
+GGally::ggpairs(tita, axisLabels = "show")
+```
+
+![](regression_analysis_files/figure-html/glm-explore-1.png)<!-- -->
+
+Fit a logistic regression using `glm` function. We need to specify the residual distribution and link function to be used in the model in the parameter `family`. Once we specify `binomial` distribution, `logit` is the default link function. For example, if you want to do probit regression, you will specify `probit` in the link function as `family = binomial(link = "probit")`. 
+
+
+```r
+mod <- glm(Survived ~ Pclass + Age + Sex, family = "binomial", data = tita)
+summary(mod)
+```
+
+```
+## 
+## Call:
+## glm(formula = Survived ~ Pclass + Age + Sex, family = "binomial", 
+##     data = tita)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -2.0189  -0.6874  -0.3766   0.6134   2.5049  
+## 
+## Coefficients:
+##              Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)  5.242211   0.604223   8.676  < 2e-16 ***
+## Pclass      -1.333798   0.166575  -8.007 1.17e-15 ***
+## Age         -0.040199   0.009178  -4.380 1.19e-05 ***
+## Sexmale     -2.524715   0.250228 -10.090  < 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 678.28  on 499  degrees of freedom
+## Residual deviance: 449.25  on 496  degrees of freedom
+## AIC: 457.25
+## 
+## Number of Fisher Scoring iterations: 5
+```
+
+From the regression result, we see that **Pclass**, **Age**, and **Sex** are all statistically significant. The AIC score is 457.25. 
+
+`vip` is an R package for constructing variable importance (VI) scores/plots for many type of supervised learning algorithms using model-specific and novel model-agnostic approaches. 
+
+
+```r
+library(vip)
+```
+
+```
+## 
+## Attaching package: 'vip'
+```
+
+```
+## The following object is masked from 'package:utils':
+## 
+##     vi
+```
+
+```r
+vi(mod)
+```
+
+```
+## # A tibble: 3 x 3
+##   Variable Importance Sign 
+##   <chr>         <dbl> <chr>
+## 1 Sexmale       10.1  NEG  
+## 2 Pclass         8.01 NEG  
+## 3 Age            4.38 NEG
+```
+
+`vip` function can create a variable importance barplot, which is based on `ggplot2`. 
+
+```r
+vip(mod)
+```
+
+![](regression_analysis_files/figure-html/importance2-1.png)<!-- -->
+
+If there are many variables (here we only have 3), you can change barplot to points and make the visualization more readable by changing it from vertical to horizontal and add color to the points based on the sign of the importance score. 
+
+
+```r
+vip(mod, num_features = length(coef(mod)), geom = "point", horizontal = FALSE, mapping = aes_string(color = "Sign"))
+```
+
+![](regression_analysis_files/figure-html/importance3-1.png)<!-- -->
+
+This `vip` package can be used to many other machine learning algorithms too, ex., neural network, random forest, support vector machine, etc. This [article](https://koalaverse.github.io/vip/articles/vip.html) introduces its usage more thoroughly. This [paper](https://cran.r-project.org/web/packages/vip/vignettes/vip-introduction.pdf) explains the computational mechanism in detail. 
+
+### Solutions to the Practice Problems
+
+#### Problem 1
 Load the dataset into R and take a look at the variables. 
 
 
@@ -368,5 +567,39 @@ car::vif(lm_nyc)
 
 Read the regression result, what conclusions can you draw from it? 
 
+#### Problem 2
 
+In my model, the response variable is **Price** and the independent variables are **Mileage**, **Cylinder**, **Doors**, **Cruise**. 
+
+
+```r
+lm_cars <- lm(Price ~ Mileage + Cylinder + Doors + Cruise, data = cars)
+summary(lm_cars)
+```
+
+```
+## 
+## Call:
+## lm(formula = Price ~ Mileage + Cylinder + Doors + Cruise, data = cars)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -12618  -5811  -1774   4006  33229 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  7.718e+03  1.678e+03   4.600 4.92e-06 ***
+## Mileage     -1.662e-01  3.256e-02  -5.106 4.12e-07 ***
+## Cylinder     3.370e+03  2.056e+02  16.388  < 2e-16 ***
+## Doors       -1.508e+03  3.139e+02  -4.804 1.86e-06 ***
+## Cruise       5.964e+03  6.613e+02   9.018  < 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 7552 on 799 degrees of freedom
+## Multiple R-squared:  0.4191,	Adjusted R-squared:  0.4162 
+## F-statistic: 144.1 on 4 and 799 DF,  p-value: < 2.2e-16
+```
+
+Compare your model with this one, which one performs better? 
 

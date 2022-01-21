@@ -20,6 +20,10 @@ Learning objectives:
 
 - Fit regression models with the `lm` function 
 
+- Fit regression models with the `glm` function  
+
+In the future: 
+
 - Automatic model selection (package `leaps`)
 
 - Prediction
@@ -115,6 +119,15 @@ par(mfrow=c(2,2))
 plot(lm_spo)
 ```
 
+Plot 1 in the top left (Residuals vs Fitted) shows:
+  1. Whether linearity holds. This is indicated by the mean residual value for every fitted value region being close to 0. In R this is indicated by the red line being close to the dashed line.
+  2. Whether homoskedasticity holds. The spread of residuals should be approximately the same across the x-axis.
+  3. Whether there are outliers. This is indicated by some ‘extreme’ residuals that are far from the rest. [Reference](https://boostedml.com/2019/03/linear-regression-plots-fitted-vs-residuals.html)
+  
+Plot 2 in the top right (Q-Q Plot), is a graphical tool to help us assess if a set of data plausibly came from some theoretical distribution such as a Normal or exponential. Ex., If both sets of quantiles came from the same distribution, we should see the points forming a line that’s roughly straight. More detail is [here](https://data.library.virginia.edu/understanding-q-q-plots/).  
+  
+Plot 4 in the bottom right (Residuals vs Leverage) allows us to identify influential observations in a regression model. You can see the number of observation that is close to or exceed the Cook's distance in the graph. More detail is [here](https://www.statology.org/residuals-vs-leverage-plot/).
+
 If we want them in 1 row and 4 columns: 
 
 ```{r plotting2}
@@ -148,6 +161,7 @@ The rule of thumb is that VIFs exceeding 4 warrant further investigation, while 
 
 ### Practice of fitting a regression model
 
+#### Problem 1
 Here, we have a NYC restaurant dataset for you to practice what we have just learned. You'll analyze a dataset in Sheather (2009) that has information about 150 Italian restaurants in Manhattan that were open in 2001 (some of them are closed now). The variables are:
 
 - Case: case-indexing variable 
@@ -166,16 +180,104 @@ Here, we have a NYC restaurant dataset for you to practice what we have just lea
 
 In the practice problem, the response variable will be **Price** and the predictors are **Food**, **Decor**, **Service**, **East**. You will have to:
 
-1. Load the dataset in R. 
-  - Using the link: `read_csv('https://raw.githubusercontent.com/YuxiaoLuo/r_analysis_dri_2022/main/data/nyc.csv')`
-  - Or load it locally: `read_csv(here('data', 'nyc.csv'))` 
+1. Load the dataset in R.
+
+  1. Using the link: `read_csv('https://raw.githubusercontent.com/YuxiaoLuo/r_analysis_dri_2022/main/data/nyc.csv')`
+  
+  2. Or load it locally: `read_csv(here('data', 'nyc.csv'))` 
 
 2. Explore the relationship between variables
 
 3. Run a linear regression model and generate the regression result
 
-### Solution to the Practice Problem 
+#### Problem 2
 
+Here we have another `cars` dataset located in the `library(caret)`, which is the Kelly Blue Book resale data for 2005 model year GM cars. Since this dataset is built inside the package, we can load it using `data(cars)`. There are many other datasets in `caret` and you can check them out [here](https://topepo.github.io/caret/data-sets.html).
+
+```{r problem2-import, message=FALSE, warning=FALSE, paged.print=TRUE}
+library(caret)
+data(cars)
+glimpse(cars)
+```
+
+What you need to do: 
+
+1. Load the dataset following the code above. 
+
+2. Try to find out the variable description using the Help window in R. (Hint: `?caret::cars`)
+
+3. Fit a regression model to explain/predict the **Price** of the GM cars. 
+
+4. Think about other regression models that makes sense to you and choose the one with the best performance ($R^2$). 
+
+5. Does your model perform better than the one I proposed (solution at the end of this page)? 
+
+### Fitting Logistic Regression with the glm function
+
+Logistic regression is used when the response variable is a binary (ex., 0 and 1). We will use a `titanic` dataset to demonstrate how to run a logistic regression in R using `glm` function. The variables are: 
+
+1. survived: Survival (0 = No; 1 = Yes)
+
+2. sex: Sex
+
+3. age: Age
+
+4. Pclass: Passenger Class (1 = 1st, 2 = 2nd, 3 = 3rd)
+
+We will use **survived** as response variable, and the other 3 as independent variables. 
+
+```{r glm-import, message=FALSE}
+# if you haven't downloaded the dataset, load it online
+tita <- read_csv("https://raw.githubusercontent.com/YuxiaoLuo/r_analysis_dri_2022/main/data/titanic_train.csv")
+
+# if you have the dataset locally, load it in the data folder
+tita <- read_csv(here("data","titanic_train.csv"))
+```
+
+Explore the variables in `titanic` dataset. 
+
+```{r glm-glimpse, paged.print=TRUE}
+glimpse(tita)
+```
+
+Visualize the relationships among the variables. 
+
+```{r glm-explore, message = FALSE}
+GGally::ggpairs(tita, axisLabels = "show")
+```
+
+Fit a logistic regression using `glm` function. We need to specify the residual distribution and link function to be used in the model in the parameter `family`. Once we specify `binomial` distribution, `logit` is the default link function. For example, if you want to do probit regression, you will specify `probit` in the link function as `family = binomial(link = "probit")`. 
+
+```{r glm-function}
+mod <- glm(Survived ~ Pclass + Age + Sex, family = "binomial", data = tita)
+summary(mod)
+```
+
+From the regression result, we see that **Pclass**, **Age**, and **Sex** are all statistically significant. The AIC score is 457.25. 
+
+`vip` is an R package for constructing variable importance (VI) scores/plots for many type of supervised learning algorithms using model-specific and novel model-agnostic approaches. 
+
+```{r importance1, warning=FALSE, paged.print=TRUE}
+library(vip)
+vi(mod)
+```
+
+`vip` function can create a variable importance barplot, which is based on `ggplot2`. 
+```{r importance2}
+vip(mod)
+```
+
+If there are many variables (here we only have 3), you can change barplot to points and make the visualization more readable by changing it from vertical to horizontal and add color to the points based on the sign of the importance score. 
+
+```{r importance3}
+vip(mod, num_features = length(coef(mod)), geom = "point", horizontal = FALSE, mapping = aes_string(color = "Sign"))
+```
+
+This `vip` package can be used to many other machine learning algorithms too, ex., neural network, random forest, support vector machine, etc. This [article](https://koalaverse.github.io/vip/articles/vip.html) introduces its usage more thoroughly. This [paper](https://cran.r-project.org/web/packages/vip/vignettes/vip-introduction.pdf) explains the computational mechanism in detail. 
+
+### Solutions to the Practice Problems
+
+#### Problem 1
 Load the dataset into R and take a look at the variables. 
 
 ```{r problem-read, message=FALSE}
@@ -215,6 +317,22 @@ car::vif(lm_nyc)
 ```
 
 Read the regression result, what conclusions can you draw from it? 
+
+#### Problem 2
+
+In my model, the response variable is **Price** and the independent variables are **Mileage**, **Cylinder**, **Doors**, **Cruise**. 
+
+```{r car-model}
+lm_cars <- lm(Price ~ Mileage + Cylinder + Doors + Cruise, data = cars)
+summary(lm_cars)
+```
+
+Compare your model with this one, which one performs better? 
+
+
+
+
+
 
 
 
