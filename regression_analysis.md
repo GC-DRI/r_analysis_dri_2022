@@ -97,12 +97,12 @@ glimpse(spo)
 
     ## Rows: 26,000
     ## Columns: 6
-    ## $ genre        [3m[38;5;246m<chr>[39m[23m "Alternative", "Alternative", "Alternative", "Alternative", "Alternative", "~
-    ## $ energy       [3m[38;5;246m<dbl>[39m[23m 0.647, 0.735, 0.917, 0.606, 0.641, 0.973, 0.919, 0.889, 0.761, 0.611, 0.613,~
-    ## $ loudness     [3m[38;5;246m<dbl>[39m[23m -8.509, -4.749, -6.086, -5.060, -5.104, -3.642, -5.938, -4.430, -4.469, -5.7~
-    ## $ tempo        [3m[38;5;246m<dbl>[39m[23m 79.810, 163.132, 140.639, 93.060, 142.043, 125.691, 108.017, 131.995, 119.00~
-    ## $ danceability [3m[38;5;246m<dbl>[39m[23m 0.709, 0.436, 0.544, 0.603, 0.487, 0.524, 0.657, 0.611, 0.675, 0.584, 0.588,~
-    ## $ lyrics       [3m[38;5;246m<chr>[39m[23m "into into into of him by economic without by his is without forced economic~
+    ## $ genre        <chr> "Alternative", "Alternative", "Alternative", "Alternative~
+    ## $ energy       <dbl> 0.647, 0.735, 0.917, 0.606, 0.641, 0.973, 0.919, 0.889, 0~
+    ## $ loudness     <dbl> -8.509, -4.749, -6.086, -5.060, -5.104, -3.642, -5.938, -~
+    ## $ tempo        <dbl> 79.810, 163.132, 140.639, 93.060, 142.043, 125.691, 108.0~
+    ## $ danceability <dbl> 0.709, 0.436, 0.544, 0.603, 0.487, 0.524, 0.657, 0.611, 0~
+    ## $ lyrics       <chr> "into into into of him by economic without by his is with~
 
 ### Exploratory data analysis
 
@@ -125,20 +125,20 @@ such as **genre**:
 summary(spo)
 ```
 
-    ##     genre               energy            loudness           tempo         danceability   
-    ##  Length:26000       Min.   :0.000216   Min.   :-47.599   Min.   : 31.03   Min.   :0.0592  
-    ##  Class :character   1st Qu.:0.379000   1st Qu.:-11.778   1st Qu.: 93.17   1st Qu.:0.4340  
-    ##  Mode  :character   Median :0.601000   Median : -7.790   Median :116.02   Median :0.5720  
-    ##                     Mean   :0.568407   Mean   : -9.554   Mean   :117.95   Mean   :0.5554  
-    ##                     3rd Qu.:0.786000   3rd Qu.: -5.508   3rd Qu.:139.34   3rd Qu.:0.6940  
-    ##                     Max.   :0.999000   Max.   :  3.744   Max.   :220.28   Max.   :0.9810  
-    ##     lyrics         
-    ##  Length:26000      
-    ##  Class :character  
-    ##  Mode  :character  
-    ##                    
-    ##                    
-    ## 
+    ##     genre               energy            loudness           tempo       
+    ##  Length:26000       Min.   :0.000216   Min.   :-47.599   Min.   : 31.03  
+    ##  Class :character   1st Qu.:0.379000   1st Qu.:-11.778   1st Qu.: 93.17  
+    ##  Mode  :character   Median :0.601000   Median : -7.790   Median :116.02  
+    ##                     Mean   :0.568407   Mean   : -9.554   Mean   :117.95  
+    ##                     3rd Qu.:0.786000   3rd Qu.: -5.508   3rd Qu.:139.34  
+    ##                     Max.   :0.999000   Max.   :  3.744   Max.   :220.28  
+    ##   danceability       lyrics         
+    ##  Min.   :0.0592   Length:26000      
+    ##  1st Qu.:0.4340   Class :character  
+    ##  Median :0.5720   Mode  :character  
+    ##  Mean   :0.5554                     
+    ##  3rd Qu.:0.6940                     
+    ##  Max.   :0.9810
 
 The function `ggpairs` in `library(GGally)` produces the equivalent
 plot, but with `ggplot2`:
@@ -343,24 +343,24 @@ glimpse(cars)
 
     ## Rows: 804
     ## Columns: 18
-    ## $ Price       [3m[38;5;246m<dbl>[39m[23m 22661.05, 21725.01, 29142.71, 30731.94, 33358.77, 30315.17, 33381.82, 30251.0~
-    ## $ Mileage     [3m[38;5;246m<int>[39m[23m 20105, 13457, 31655, 22479, 17590, 23635, 17381, 27558, 25049, 17319, 10003, ~
-    ## $ Cylinder    [3m[38;5;246m<int>[39m[23m 6, 6, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,~
-    ## $ Doors       [3m[38;5;246m<int>[39m[23m 4, 2, 2, 2, 2, 2, 2, 2, 2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,~
-    ## $ Cruise      [3m[38;5;246m<int>[39m[23m 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,~
-    ## $ Sound       [3m[38;5;246m<int>[39m[23m 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0,~
-    ## $ Leather     [3m[38;5;246m<int>[39m[23m 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,~
-    ## $ Buick       [3m[38;5;246m<int>[39m[23m 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,~
-    ## $ Cadillac    [3m[38;5;246m<int>[39m[23m 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,~
-    ## $ Chevy       [3m[38;5;246m<int>[39m[23m 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,~
-    ## $ Pontiac     [3m[38;5;246m<int>[39m[23m 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,~
-    ## $ Saab        [3m[38;5;246m<int>[39m[23m 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,~
-    ## $ Saturn      [3m[38;5;246m<int>[39m[23m 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,~
-    ## $ convertible [3m[38;5;246m<int>[39m[23m 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,~
-    ## $ coupe       [3m[38;5;246m<int>[39m[23m 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,~
-    ## $ hatchback   [3m[38;5;246m<int>[39m[23m 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,~
-    ## $ sedan       [3m[38;5;246m<int>[39m[23m 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0,~
-    ## $ wagon       [3m[38;5;246m<int>[39m[23m 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1,~
+    ## $ Price       <dbl> 22661.05, 21725.01, 29142.71, 30731.94, 33358.77, 30315.17~
+    ## $ Mileage     <int> 20105, 13457, 31655, 22479, 17590, 23635, 17381, 27558, 25~
+    ## $ Cylinder    <int> 6, 6, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4~
+    ## $ Doors       <int> 4, 2, 2, 2, 2, 2, 2, 2, 2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4~
+    ## $ Cruise      <int> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1~
+    ## $ Sound       <int> 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0~
+    ## $ Leather     <int> 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1~
+    ## $ Buick       <int> 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0~
+    ## $ Cadillac    <int> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0~
+    ## $ Chevy       <int> 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0~
+    ## $ Pontiac     <int> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0~
+    ## $ Saab        <int> 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1~
+    ## $ Saturn      <int> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0~
+    ## $ convertible <int> 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0~
+    ## $ coupe       <int> 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0~
+    ## $ hatchback   <int> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0~
+    ## $ sedan       <int> 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1~
+    ## $ wagon       <int> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0~
 
 What you need to do:
 
@@ -411,10 +411,10 @@ glimpse(tita)
 
     ## Rows: 500
     ## Columns: 4
-    ## $ Survived [3m[38;5;246m<dbl>[39m[23m 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1,~
-    ## $ Pclass   [3m[38;5;246m<dbl>[39m[23m 3, 1, 3, 1, 3, 3, 3, 2, 3, 1, 3, 3, 2, 3, 2, 2, 1, 3, 3, 2, 1, 3, 3, 3, 3, 2, 3,~
-    ## $ Age      [3m[38;5;246m<dbl>[39m[23m 22.0, 38.0, 26.0, 35.0, 35.0, 2.0, 27.0, 14.0, 4.0, 58.0, 20.0, 39.0, 55.0, 31.0~
-    ## $ Sex      [3m[38;5;246m<chr>[39m[23m "male", "female", "female", "female", "male", "male", "female", "female", "femal~
+    ## $ Survived <dbl> 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0~
+    ## $ Pclass   <dbl> 3, 1, 3, 1, 3, 3, 3, 2, 3, 1, 3, 3, 2, 3, 2, 2, 1, 3, 3, 2, 1~
+    ## $ Age      <dbl> 22, 38, 26, 35, 35, 2, 27, 14, 4, 58, 20, 39, 55, 31, 35, 34,~
+    ## $ Sex      <chr> "male", "female", "female", "female", "male", "male", "female~
 
 Visualize the relationships among the variables.
 
@@ -471,15 +471,25 @@ model-specific and novel model-agnostic approaches.
 
 ``` r
 library(vip)
+```
+
+    ## 
+    ## Attaching package: 'vip'
+
+    ## The following object is masked from 'package:utils':
+    ## 
+    ##     vi
+
+``` r
 vi(mod)
 ```
 
-    ## [38;5;246m# A tibble: 3 x 3[39m
+    ## # A tibble: 3 x 3
     ##   Variable Importance Sign 
-    ##   [3m[38;5;246m<chr>[39m[23m         [3m[38;5;246m<dbl>[39m[23m [3m[38;5;246m<chr>[39m[23m
-    ## [38;5;250m1[39m Sexmale       10.1  NEG  
-    ## [38;5;250m2[39m Pclass         8.01 NEG  
-    ## [38;5;250m3[39m Age            4.38 NEG
+    ##   <chr>         <dbl> <chr>
+    ## 1 Sexmale       10.1  NEG  
+    ## 2 Pclass         8.01 NEG  
+    ## 3 Age            4.38 NEG
 
 `vip` function can create a variable importance barplot, which is based
 on `ggplot2`.
@@ -521,13 +531,13 @@ glimpse(nyc)
 
     ## Rows: 150
     ## Columns: 7
-    ## $ Case       [3m[38;5;246m<dbl>[39m[23m 148, 2, 144, 131, 26, 29, 160, 83, 105, 126, 140, 80, 7, 5, 143, 118, 113, 114~
-    ## $ Restaurant [3m[38;5;246m<chr>[39m[23m "Vago Ristorante", "Tello's Ristorante", "Giovanni", "Torre di Pisa", "Anche V~
-    ## $ Price      [3m[38;5;246m<dbl>[39m[23m 45, 32, 45, 47, 37, 49, 31, 38, 51, 47, 42, 48, 34, 54, 53, 41, 43, 51, 46, 37~
-    ## $ Food       [3m[38;5;246m<dbl>[39m[23m 22, 20, 22, 19, 19, 22, 20, 23, 24, 18, 18, 21, 22, 24, 22, 19, 23, 23, 22, 21~
-    ## $ Decor      [3m[38;5;246m<dbl>[39m[23m 21, 19, 19, 21, 17, 19, 17, 19, 21, 18, 21, 18, 16, 19, 24, 17, 20, 22, 18, 19~
-    ## $ Service    [3m[38;5;246m<dbl>[39m[23m 23, 19, 21, 17, 19, 20, 19, 24, 21, 17, 17, 19, 21, 21, 21, 19, 21, 21, 20, 21~
-    ## $ East       [3m[38;5;246m<chr>[39m[23m "West", "West", "West", "West", "East", "East", "West", "East", "East", "West"~
+    ## $ Case       <dbl> 148, 2, 144, 131, 26, 29, 160, 83, 105, 126, 140, 80, 7, 5,~
+    ## $ Restaurant <chr> "Vago Ristorante", "Tello's Ristorante", "Giovanni", "Torre~
+    ## $ Price      <dbl> 45, 32, 45, 47, 37, 49, 31, 38, 51, 47, 42, 48, 34, 54, 53,~
+    ## $ Food       <dbl> 22, 20, 22, 19, 19, 22, 20, 23, 24, 18, 18, 21, 22, 24, 22,~
+    ## $ Decor      <dbl> 21, 19, 19, 21, 17, 19, 17, 19, 21, 18, 21, 18, 16, 19, 24,~
+    ## $ Service    <dbl> 23, 19, 21, 17, 19, 20, 19, 24, 21, 17, 17, 19, 21, 21, 21,~
+    ## $ East       <chr> "West", "West", "West", "West", "East", "East", "West", "Ea~
 
 Further explore the data with `summary` and `ggpairs`.
 
@@ -535,20 +545,20 @@ Further explore the data with `summary` and `ggpairs`.
 summary(nyc)
 ```
 
-    ##       Case         Restaurant            Price            Food           Decor      
-    ##  Min.   :  2.00   Length:150         Min.   :19.00   Min.   :16.00   Min.   : 6.00  
-    ##  1st Qu.: 41.50   Class :character   1st Qu.:35.25   1st Qu.:19.00   1st Qu.:16.00  
-    ##  Median : 83.50   Mode  :character   Median :42.00   Median :21.00   Median :18.00  
-    ##  Mean   : 84.17                      Mean   :42.62   Mean   :20.61   Mean   :17.69  
-    ##  3rd Qu.:124.75                      3rd Qu.:49.75   3rd Qu.:22.00   3rd Qu.:19.00  
-    ##  Max.   :168.00                      Max.   :65.00   Max.   :25.00   Max.   :25.00  
-    ##     Service          East          
-    ##  Min.   :14.00   Length:150        
-    ##  1st Qu.:18.00   Class :character  
-    ##  Median :20.00   Mode  :character  
-    ##  Mean   :19.39                     
-    ##  3rd Qu.:21.00                     
-    ##  Max.   :24.00
+    ##       Case         Restaurant            Price            Food      
+    ##  Min.   :  2.00   Length:150         Min.   :19.00   Min.   :16.00  
+    ##  1st Qu.: 41.50   Class :character   1st Qu.:35.25   1st Qu.:19.00  
+    ##  Median : 83.50   Mode  :character   Median :42.00   Median :21.00  
+    ##  Mean   : 84.17                      Mean   :42.62   Mean   :20.61  
+    ##  3rd Qu.:124.75                      3rd Qu.:49.75   3rd Qu.:22.00  
+    ##  Max.   :168.00                      Max.   :65.00   Max.   :25.00  
+    ##      Decor          Service          East          
+    ##  Min.   : 6.00   Min.   :14.00   Length:150        
+    ##  1st Qu.:16.00   1st Qu.:18.00   Class :character  
+    ##  Median :18.00   Median :20.00   Mode  :character  
+    ##  Mean   :17.69   Mean   :19.39                     
+    ##  3rd Qu.:19.00   3rd Qu.:21.00                     
+    ##  Max.   :25.00   Max.   :24.00
 
 Create a dataset nycplot excludes the variables Case, Restaurant, and
 East.

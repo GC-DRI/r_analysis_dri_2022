@@ -1,9 +1,7 @@
 ---
 title: "Intro to Regression Analysis"
 author: "Yuxiao Luo"
-output:
-  html_document:
-    keep_md: yes
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
