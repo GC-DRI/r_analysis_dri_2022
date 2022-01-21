@@ -2,7 +2,7 @@
 
 Welcome! 
 
-- [Data Wrangling](https://github.com/GC-DRI/r_data_analysis_2021)
+- [Data Wrangling](https://github.com/GC-DRI/r_data_analysis_2021/blob/main/data-wrangling.md)
 
 - Data Analysis
 
