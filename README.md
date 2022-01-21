@@ -1,5 +1,7 @@
 # R Data Analysis Workshop DRI 2022
 
+Welcome! 
+
 - [Data Wrangling](https://github.com/GC-DRI/r_data_analysis_2021)
 
 - Data Analysis
@@ -24,4 +26,4 @@
   
   - Genius
 
-[\[>Enter<\]](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/regression_warmup.md)
+[\[>>>Enter\]](https://github.com/GC-DRI/r_data_analysis_2021)

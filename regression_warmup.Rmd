@@ -1,6 +1,5 @@
 ---
 title: "Regression Warm-up"
-author: "Yuxiao Luo"
 output: github_document
 ---
 

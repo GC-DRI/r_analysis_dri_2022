@@ -1,6 +1,5 @@
 ---
 title: "Intro to Regression Analysis"
-author: "Yuxiao Luo"
 output: github_document
 ---
 

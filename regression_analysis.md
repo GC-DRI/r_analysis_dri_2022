@@ -1,6 +1,5 @@
 Intro to Regression Analysis
 ================
-Yuxiao Luo
 
 ## Welcome
 

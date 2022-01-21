@@ -1,6 +1,5 @@
 Regression Warm-up
 ================
-Yuxiao Luo
 
 This section is part of the R Data Analysis Workshop and aims to
 introduce some basic concepts for regression analysis in R. If you want
