@@ -652,3 +652,5 @@ summary(lm_cars)
     ## F-statistic: 144.1 on 4 and 799 DF,  p-value: < 2.2e-16
 
 Compare your model with this one, which one performs better?
+
+### Mediation Analysis
