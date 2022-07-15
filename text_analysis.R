@@ -176,6 +176,7 @@ spotify <- read_csv("https://raw.githubusercontent.com/GC-DRI/r_analysis_dri_202
 
 glimpse(spotify)
 
+# ?unnest_tokens
 spotify_lyrics <- spotify %>% unnest_tokens(word, lyrics, token = "words")
 
 spotify_wordcloud <- spotify_lyrics %>% count(word, sort = TRUE)
@@ -189,3 +190,22 @@ spotify_no_stop
 
 wordcloud2(data=spotify_no_stop, size=.2,
            color='random-light')
+
+# wordcloud without removing stop words
+wordcloud2(data = spotify_wordcloud, size = .8, color = 'random-light')
+
+###########################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
