@@ -1,0 +1,179 @@
+---
+title: "Model Selection"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Automatic Model Selection
+
+When we have limited number of variables in the data set, it's relatively easy to construct a model and compare the performance between them. There also exist some techniques to deal with large amount of variables and determine which to include in the model.
+
+This tutorial introduces three ways of automatic model selection, which are useful when you want to decide what variables to include in your model. We will talk about backward, forward, and stepwise selection in `stats` package and demonstrate the R code respectively. 
+
+```{r load-package, warning = FALSE, message= FALSE, error = FALSE}
+library(tidyverse)
+library(here)
+library(GGally)
+library(leaps)
+```
+
+### Regression model
+
+We will use a NYC restaurant dataset in Sheather (2009) that has information about 150 Italian restaurants in Manhattan that were open in 2001 (some of them are closed now). The variables are:
+
+- Case: case-indexing variable
+
+- Restaurant: name of the restaurant
+
+- Price: average price of meal and a drink
+
+- Food: average Zagat rating of the quality of the food (from 0 to 25)
+
+- Decor: same as above, but with quality of the decor
+
+- Service: same as above, but with quality of service
+
+- East: it is equal to East if the restaurant is on the East Side (i.e. east of Fifth Ave) and West otherwise
+
+First, let's load the data:
+
+```{r load-data}
+nyc <- read_csv('https://raw.githubusercontent.com/YuxiaoLuo/r_analysis_dri_2022/main/data/nyc.csv')
+
+```
+
+Let's explore the data by looking at the variables' type and samples.
+
+```{r explore_variables}
+glimpse(nyc)
+```
+
+We can also explore the summary and scatter plot matrices of hte variables. 
+
+```{r explore_summary}
+summary(nyc)
+```
+
+Note that scatterplot matrices can only show numerical variables (continuous & discrete). So we remove **Case**, **Restaurant**, and **East**.
+
+```{r explore_ggpairs}
+nycplot <- nyc %>% select(-Case, -Restaurant, -East)
+ggpairs(nycplot)
+```
+Now, let's construct a regression model to predict **Price** using all the other variables as predictors. 
+
+```{r regression}
+lm_nyc <- lm(Price ~ Food + Decor + Service + East, data = nyc)
+summary(lm_nyc)
+```
+
+### Backward selection
+
+Backward selection uses the `step` function in `stats` package and select a formula-based model by [AIC (Akaike Information Criterion)](https://en.wikipedia.org/wiki/Akaike_information_criterion). The rule of thumb is the less the AIC score, the better the model performs. 
+
+Let's try backward selection, which starts with the full model and removes the variable step by step while examining the change of AIC score as the performance measure. 
+
+```{r backward}
+step(lm_nyc, direction = 'backward')
+
+```
+
+From the summary result, the model that uses **Food**, **Decor**, and **East** as the independent variables to predict the **Price** is more preferred. 
+
+### Forward selection
+
+We can also do forward selection, which needs a starting model and a larger model that includes all the variables that we might want to include in our model. 
+
+```{r forward}
+# create a null model
+nullnyc <- lm(Price ~ 1, data = nyc) # no variables
+fwd <- step(nullnyc, 
+            scope = list(upper = lm_nyc),
+            direction = 'forward')
+```
+
+From the result, you can see the best model is `Price ~ Decor + Food + East`, which has an AIC score of 524.64. 
+
+### Stepwise regression
+
+We can also do stepwise regression with `direction = 'both'`.In stepwise regression, variables can get in or out of the model. We can specify the smallest and biggest model in our search with `scope` argument in the `step` function.
+
+For instance, let's start the stepwise search with a model that has **Service** as a predictor and restrict our search to models that include **Service** and all the other possible independent variables:
+
+```{r stepwise}
+lm2_nyc <- lm(Price ~ Service, data = nyc)
+step(lm2_nyc,
+     scope= list(lower = lm2_nyc, upper = lm_nyc),
+     direction = 'both')
+```
+
+### BIC criterion 
+
+Let's change selection criterion to BIC using the command `k = log(n)`, where n is the number of observations in the dataset. According to the documentation, `k` means the multiple of the number of degrees of freedom used for the penalty. Only k = 2 gives the genuine AIC: `k = log(n)` is sometimes referred to as BIC or SBC.
+
+```{r BIC}
+n <-  nrow(nyc)
+step(lm_nyc, direction = 'backward', k = log(n))
+```
+
+### All subsets selection using `leaps`
+
+If you want to find the 'best' model among a set of variables based on BIC or adjusted R^2, you can use library `leaps`.
+
+```{r leaps}
+#library(leaps)
+allsubs <- regsubsets(Price ~ Food + Decor + Service + East, data = nyc)
+summary(allsubs)
+```
+
+From the table, we know that if the model only contains one predictor, the one with `Decor` will has the smallest R-squared (residual sum of squares). If the model only contains two predictors, the one with `Food` and `Decor` will has the smallest R-squared. If the model only contains three predictors, the one with `Food`, `Decor`, and `East` will has the smallest R-squared. In each group of models that have a fixed number of predictors, the best model is selected based on AIC, BIC, and adjusted R-squared, which will coincide with the sample goal, that is, smallest residual sum of squares. ([AIC](https://www.statisticshowto.com/akaikes-information-criterion/), [Adjusted $R^2$](https://www.statisticshowto.com/probability-and-statistics/statistics-definitions/adjusted-r2/))
+
+The overall "best" model is the one selected from the 4 "best" model for a fixed number of independent variables. We can use either AIC or BIC to select the "best" model because these two measures penalize model sizes (# of variables) differently. Specifically, the penalty for AIC is smaller and it prefers model with more variables. 
+
+Let's visualize the BIC scores of the best models in each group with a fixed number of predictors. The model at the top is the best model with the lowest BIC score among all the best models in different groups. From the plot below, we know the best model is the one with two predictors, **Food** and **Decor**. 
+
+```{r bestmodel}
+plot(allsubs)
+```
+We can also visualize the adjusted $R^2$ for different best models. From the plot below, we know the "best" model with highest adjusted $R^2$ is the one with three predictors, **Food**, **Decor**, and **East**.
+
+```{r r-squared}
+plot(allsubs, scale = 'adjr')
+```
+## Prediction 
+
+Now we can try to use the model to predict 
+
+## Reference
+
+- Many of content are adapted from the Workshops by [Victor Pena](https://vicpena.github.io/).
+
+- Sheather, Simon. *A modern approach to regression with R*. Springer Science & Business Media, 2009.
+
+- Multiple and logistic regression, Datacamp course by [Ben Baumer](https://beanumber.github.io/www/).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
