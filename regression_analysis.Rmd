@@ -326,6 +326,6 @@ summary(lm_cars)
 
 Compare your model with this one, which one performs better? 
 
-
+[Next: Model Selection >>>](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/model_selection.md)
 
 

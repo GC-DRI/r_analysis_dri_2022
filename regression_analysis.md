@@ -115,7 +115,7 @@ pairs(spo_plot)
 
 ![](regression_analysis_files/figure-gfm/scatterplot-1.png)<!-- -->
 
-The dataset **spo\_plot** excludes the variables **genre** and
+The dataset **spo_plot** excludes the variables **genre** and
 **lyrics**. We can get quick and dirty summaries of the variables with
 summary. An advantage is that it’s able to handle categorical variables,
 such as **genre**:
@@ -653,10 +653,5 @@ summary(lm_cars)
 
 Compare your model with this one, which one performs better?
 
-
-
-
-
-
-
-
+[Next: Model Selection
+\>\>\>](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/model_selection.md)
