@@ -377,10 +377,195 @@ three predictors, the one with `Food`, `Decor`, and `East` will has the
 smallest R-squared. In each group of models that have a fixed number of
 predictors, the best model is selected based on AIC, BIC, and adjusted
 R-squared, which will coincide with the sample goal, that is, smallest
-residual sum of squares [$\\hat{\\sigma^2}$]().
+residual sum of squares.
 ([AIC](https://www.statisticshowto.com/akaikes-information-criterion/),
 [Adjusted
 *R*<sup>2</sup>](https://www.statisticshowto.com/probability-and-statistics/statistics-definitions/adjusted-r2/))
 
 The overall “best” model is the one selected from the 4 “best” model for
-a fixed number of independent variables.
+a fixed number of independent variables. We can use either AIC or BIC to
+select the “best” model because these two measures penalize model sizes
+(# of variables) differently. Specifically, the penalty for AIC is
+smaller and it prefers model with more variables.
+
+Let’s visualize the BIC scores of the best models in each group with a
+fixed number of predictors. The model at the top is the best model with
+the lowest BIC score among all the best models in different groups. From
+the plot below, we know the best model is the one with two predictors,
+**Food** and **Decor**.
+
+``` r
+plot(allsubs)
+```
+
+![](model_selection_files/figure-gfm/bestmodel-1.png)<!-- --> We can
+also visualize the adjusted *R*<sup>2</sup> for different best models.
+From the plot below, we know the “best” model with highest adjusted
+*R*<sup>2</sup> is the one with three predictors, **Food**, **Decor**,
+and **East**.
+
+``` r
+plot(allsubs, scale = 'adjr')
+```
+
+![](model_selection_files/figure-gfm/r-squared-1.png)<!-- --> \###
+Prediction
+
+Now we can try to use the model to predict the **Price** in a testing
+dataset, which has some data of Italian restaurants not included in the
+nyc restaurant dataset.
+
+``` r
+nyctest <- read_csv('https://raw.githubusercontent.com/YuxiaoLuo/r_analysis_dri_2022/main/data/nyctest.csv', col_select = 3:8)
+```
+
+    ## New names:
+    ## * `` -> ...1
+
+    ## Rows: 18 Columns: 6
+    ## -- Column specification --------------------------------------------------------
+    ## Delimiter: ","
+    ## chr (2): Restaurant, East
+    ## dbl (4): Price, Food, Decor, Service
+    ## 
+    ## i Use `spec()` to retrieve the full column specification for this data.
+    ## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+``` r
+glimpse(nyctest)
+```
+
+    ## Rows: 18
+    ## Columns: 6
+    ## $ Restaurant <chr> "Daniella Ristorante", "Villa Berulia", "Chianti", "Paper M~
+    ## $ Price      <dbl> 43, 45, 43, 43, 58, 54, 31, 50, 46, 50, 39, 43, 45, 40, 23,~
+    ## $ Food       <dbl> 22, 22, 20, 19, 24, 18, 19, 21, 23, 22, 19, 19, 20, 19, 20,~
+    ## $ Decor      <dbl> 18, 18, 16, 17, 21, 16, 16, 18, 19, 18, 18, 18, 17, 19, 14,~
+    ## $ Service    <dbl> 20, 23, 18, 17, 23, 15, 17, 21, 23, 21, 18, 21, 21, 18, 16,~
+    ## $ East       <chr> "West", "East", "East", "East", "East", "East", "East", "Ea~
+
+Let’s first create a model using the `nyc` restaurant data (training
+dataset). Then, we can find point predictions and 99% prediction
+intervals using the model.
+
+``` r
+lm_nyc <- lm(Price ~ Food + Decor + East, data = nyc)
+preds <- predict(lm_nyc, newdata = nyctest, interval = 'prediction',
+                 level = 0.99)
+preds
+```
+
+    ##         fit      lwr      upr
+    ## 1  44.44261 29.45164 59.43358
+    ## 2  46.05904 31.15867 60.95941
+    ## 3  39.04475 24.14123 53.94827
+    ## 4  39.27259 24.34107 54.20410
+    ## 5  54.94082 39.92882 69.95282
+    ## 6  35.76544 20.77548 50.75540
+    ## 7  37.40510 22.47519 52.33500
+    ## 8  44.41939 29.53641 59.30237
+    ## 9  49.56619 34.62748 64.50489
+    ## 10 46.05904 31.15867 60.95941
+    ## 11 41.14008 26.19025 56.08991
+    ## 12 41.14008 26.19025 56.08991
+    ## 13 39.29582 24.35479 54.23684
+    ## 14 41.39114 26.39525 56.38704
+    ## 15 33.69334 18.65313 48.73356
+    ## 16 36.01651 21.01412 51.01890
+    ## 17 44.67045 29.71621 59.62469
+    ## 18 46.31011 31.32610 61.29411
+
+The output of the `predict` function is a matrix, we can transfer it to
+the data structure in `tidyverse` with `as_tibble` and add the actual
+price column to it.
+
+``` r
+preds <- as_tibble(preds) %>% mutate(actualPrice = nyctest$Price)
+preds
+```
+
+    ## # A tibble: 18 x 4
+    ##      fit   lwr   upr actualPrice
+    ##    <dbl> <dbl> <dbl>       <dbl>
+    ##  1  44.4  29.5  59.4          43
+    ##  2  46.1  31.2  61.0          45
+    ##  3  39.0  24.1  53.9          43
+    ##  4  39.3  24.3  54.2          43
+    ##  5  54.9  39.9  70.0          58
+    ##  6  35.8  20.8  50.8          54
+    ##  7  37.4  22.5  52.3          31
+    ##  8  44.4  29.5  59.3          50
+    ##  9  49.6  34.6  64.5          46
+    ## 10  46.1  31.2  61.0          50
+    ## 11  41.1  26.2  56.1          39
+    ## 12  41.1  26.2  56.1          43
+    ## 13  39.3  24.4  54.2          45
+    ## 14  41.4  26.4  56.4          40
+    ## 15  33.7  18.7  48.7          23
+    ## 16  36.0  21.0  51.0          38
+    ## 17  44.7  29.7  59.6          39
+    ## 18  46.3  31.3  61.3          50
+
+Then, we can plot both the predictions and actual data. The result shows
+a positive relation between the predicted value and actual price.
+
+``` r
+ggplot(preds, mapping = aes(x = fit, y = actualPrice)) + 
+  geom_point() + 
+  geom_smooth(method = 'lm', se = FALSE)
+```
+
+![](model_selection_files/figure-gfm/plot_prediction-1.png)<!-- --> \###
+Interaction terms
+
+An interaction occurs when an independent variable has a different
+effect on the outcome depending on the values of another independent
+variable. More details can be found
+[here](https://statisticsbyjim.com/regression/interaction-effects/).
+
+If you want to fit interaction terms in R, you can try the following
+code. For example, I formed an interaction term of `Decor` and `Service`
+in the model. The interaction term posits the interaction between
+`Decor` and `Service` have an effect on `Price` that is distinctive from
+`Decor` and `Service` separately.
+
+``` r
+lm_nyc_int <- lm(Price ~ Food + Decor + Service + East + Decor*Service,
+                 data = nyc)
+summary(lm_nyc_int)
+```
+
+    ## 
+    ## Call:
+    ## lm(formula = Price ~ Food + Decor + Service + East + Decor * 
+    ##     Service, data = nyc)
+    ## 
+    ## Residuals:
+    ##      Min       1Q   Median       3Q      Max 
+    ## -14.0728  -3.7870   0.3288   3.5894  16.8442 
+    ## 
+    ## Coefficients:
+    ##                Estimate Std. Error t value Pr(>|t|)    
+    ## (Intercept)   -40.65158   23.26143  -1.748   0.0827 .  
+    ## Food            1.73703    0.40894   4.248 3.86e-05 ***
+    ## Decor           2.78374    1.24534   2.235   0.0269 *  
+    ## Service         0.82393    1.17230   0.703   0.4833    
+    ## EastWest       -1.56601    1.00389  -1.560   0.1210    
+    ## Decor:Service  -0.04956    0.06614  -0.749   0.4549    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Residual standard error: 5.701 on 144 degrees of freedom
+    ## Multiple R-squared:  0.648,  Adjusted R-squared:  0.6358 
+    ## F-statistic: 53.02 on 5 and 144 DF,  p-value: < 2.2e-16
+
+## Reference
+
+-   Many of content are adapted from the Workshops by [Victor
+    Pena](https://vicpena.github.io/).
+
+-   Sheather, Simon. *A modern approach to regression with R*. Springer
+    Science & Business Media, 2009.
+
+-   Multiple and logistic regression, Datacamp course by [Ben
+    Baumer](https://beanumber.github.io/www/).

@@ -143,9 +143,50 @@ We can also visualize the adjusted $R^2$ for different best models. From the plo
 ```{r r-squared}
 plot(allsubs, scale = 'adjr')
 ```
-## Prediction 
+### Prediction 
 
-Now we can try to use the model to predict 
+Now we can try to use the model to predict the **Price** in a testing dataset, which has some data of Italian restaurants not included in the nyc restaurant dataset. 
+
+```{r read_testdata}
+nyctest <- read_csv('https://raw.githubusercontent.com/YuxiaoLuo/r_analysis_dri_2022/main/data/nyctest.csv', col_select = 3:8)
+glimpse(nyctest)
+
+```
+
+Let's first create a model using the `nyc` restaurant data (training dataset). Then, we can find point predictions and 99% prediction intervals using the model.
+
+```{r model_nyctest}
+lm_nyc <- lm(Price ~ Food + Decor + East, data = nyc)
+preds <- predict(lm_nyc, newdata = nyctest, interval = 'prediction',
+                 level = 0.99)
+preds
+```
+
+The output of the `predict` function is a matrix, we can transfer it to the data structure in `tidyverse` with `as_tibble` and add the actual price column to it. 
+
+```{r model_prediciton}
+preds <- as_tibble(preds) %>% mutate(actualPrice = nyctest$Price)
+preds
+```
+Then, we can plot both the predictions and actual data. The result shows a positive relation between the predicted value and actual price. 
+
+```{r plot_prediction, message=FALSE}
+ggplot(preds, mapping = aes(x = fit, y = actualPrice)) + 
+  geom_point() + 
+  geom_smooth(method = 'lm', se = FALSE)
+```
+### Interaction terms
+
+An interaction occurs when an independent variable has a different
+effect on the outcome depending on the values of another independent variable. More details can be found [here](https://statisticsbyjim.com/regression/interaction-effects/).
+
+If you want to fit interaction terms in R, you can try the following code. For example, I formed an interaction term of `Decor` and `Service` in the model. The interaction term posits the interaction between `Decor` and `Service` have an effect on `Price` that is distinctive from `Decor` and `Service` separately.
+
+```{r interaction}
+lm_nyc_int <- lm(Price ~ Food + Decor + Service + East + Decor*Service,
+                 data = nyc)
+summary(lm_nyc_int)
+```
 
 ## Reference
 
