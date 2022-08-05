@@ -1,6 +1,6 @@
 # R Data Analysis Workshop DRI 2022
 
-Welcome! 
+Welcome! This is the R data analysis workshop DRI 2022. Please find the topic the related tutorial below. 
 
 - [Data Wrangling](https://github.com/GC-DRI/r_data_analysis_2021/blob/main/data-wrangling.md)
 
@@ -9,6 +9,7 @@ Welcome!
   - [Regression Warmup](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/regression_warmup.md)
 
   - [Regression Modeling](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/regression_analysis.md) ([R Script](https://github.com/GC-DRI/r_analysis_dri_2022/blob/main/regression_workshop_script.R))
+  - [Model Selection](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/model_selection.md)
 
 - Text Analysis
 
