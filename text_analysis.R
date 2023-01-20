@@ -1,6 +1,7 @@
 ####################################
 # Intro to Text Analysis
-# 01/25/2022
+# DRI 2023
+# 01/25/2023
 
 # for data manipulation and plotting
 library(tidyverse)
@@ -53,7 +54,7 @@ lyrics %>%
 # 3. basic qualitative insights, flexibility in interpretation 
 
 ## Generate wordcloud
-set.seed(2022) # for reproducibility 
+set.seed(2023) # for reproducibility 
 
 # count(dataset, column name, sort = TRUE/FALSE)
 # count words

@@ -26,20 +26,20 @@ We will use a NYC restaurant dataset in Sheather (2009) that has
 information about 150 Italian restaurants in Manhattan that were open in
 2001 (some of them are closed now). The variables are:
 
--   Case: case-indexing variable
+- Case: case-indexing variable
 
--   Restaurant: name of the restaurant
+- Restaurant: name of the restaurant
 
--   Price: average price of meal and a drink
+- Price: average price of meal and a drink
 
--   Food: average Zagat rating of the quality of the food (from 0 to 25)
+- Food: average Zagat rating of the quality of the food (from 0 to 25)
 
--   Decor: same as above, but with quality of the decor
+- Decor: same as above, but with quality of the decor
 
--   Service: same as above, but with quality of service
+- Service: same as above, but with quality of service
 
--   East: it is equal to East if the restaurant is on the East Side
-    (i.e. east of Fifth Ave) and West otherwise
+- East: it is equal to East if the restaurant is on the East Side
+  (i.e. east of Fifth Ave) and West otherwise
 
 First, let’s load the data:
 
@@ -48,13 +48,13 @@ nyc <- read_csv('https://raw.githubusercontent.com/YuxiaoLuo/r_analysis_dri_2022
 ```
 
     ## Rows: 150 Columns: 7
-    ## -- Column specification --------------------------------------------------------
+    ## ── Column specification ────────────────────────────────────────────────────────
     ## Delimiter: ","
     ## chr (2): Restaurant, East
     ## dbl (5): Case, Price, Food, Decor, Service
     ## 
-    ## i Use `spec()` to retrieve the full column specification for this data.
-    ## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
 Let’s explore the data by looking at the variables’ type and samples.
 
@@ -64,13 +64,13 @@ glimpse(nyc)
 
     ## Rows: 150
     ## Columns: 7
-    ## $ Case       <dbl> 148, 2, 144, 131, 26, 29, 160, 83, 105, 126, 140, 80, 7, 5,~
-    ## $ Restaurant <chr> "Vago Ristorante", "Tello's Ristorante", "Giovanni", "Torre~
-    ## $ Price      <dbl> 45, 32, 45, 47, 37, 49, 31, 38, 51, 47, 42, 48, 34, 54, 53,~
-    ## $ Food       <dbl> 22, 20, 22, 19, 19, 22, 20, 23, 24, 18, 18, 21, 22, 24, 22,~
-    ## $ Decor      <dbl> 21, 19, 19, 21, 17, 19, 17, 19, 21, 18, 21, 18, 16, 19, 24,~
-    ## $ Service    <dbl> 23, 19, 21, 17, 19, 20, 19, 24, 21, 17, 17, 19, 21, 21, 21,~
-    ## $ East       <chr> "West", "West", "West", "West", "East", "East", "West", "Ea~
+    ## $ Case       <dbl> 148, 2, 144, 131, 26, 29, 160, 83, 105, 126, 140, 80, 7, 5,…
+    ## $ Restaurant <chr> "Vago Ristorante", "Tello's Ristorante", "Giovanni", "Torre…
+    ## $ Price      <dbl> 45, 32, 45, 47, 37, 49, 31, 38, 51, 47, 42, 48, 34, 54, 53,…
+    ## $ Food       <dbl> 22, 20, 22, 19, 19, 22, 20, 23, 24, 18, 18, 21, 22, 24, 22,…
+    ## $ Decor      <dbl> 21, 19, 19, 21, 17, 19, 17, 19, 21, 18, 21, 18, 16, 19, 24,…
+    ## $ Service    <dbl> 23, 19, 21, 17, 19, 20, 19, 24, 21, 17, 17, 19, 21, 21, 21,…
+    ## $ East       <chr> "West", "West", "West", "West", "East", "East", "West", "Ea…
 
 We can also explore the summary and scatter plot matrices of hte
 variables.
@@ -370,17 +370,17 @@ summary(allsubs)
     ## 4  ( 1 ) "*"  "*"   "*"     "*"
 
 From the table, we know that if the model only contains one predictor,
-the one with `Decor` will has the smallest R-squared (residual sum of
+the one with `Decor` will has the smallest RSS (residual sum of
 squares). If the model only contains two predictors, the one with `Food`
-and `Decor` will has the smallest R-squared. If the model only contains
-three predictors, the one with `Food`, `Decor`, and `East` will has the
-smallest R-squared. In each group of models that have a fixed number of
-predictors, the best model is selected based on AIC, BIC, and adjusted
-R-squared, which will coincide with the sample goal, that is, smallest
-residual sum of squares.
+and `Decor` will have the smallest RSS. If the model only contains three
+predictors, the one with `Food`, `Decor`, and `East` will have the
+smallest RSS. In each group of models that have a fixed number of
+predictors, the best model is selected based on AIC, BIC, and RSS, which
+will coincide with the sample goal, that is, smallest residual sum of
+squares.
 ([AIC](https://www.statisticshowto.com/akaikes-information-criterion/),
 [Adjusted
-*R*<sup>2</sup>](https://www.statisticshowto.com/probability-and-statistics/statistics-definitions/adjusted-r2/))
+$R^2$](https://www.statisticshowto.com/probability-and-statistics/statistics-definitions/adjusted-r2/))
 
 The overall “best” model is the one selected from the 4 “best” model for
 a fixed number of independent variables. We can use either AIC or BIC to
@@ -399,10 +399,9 @@ plot(allsubs)
 ```
 
 ![](model_selection_files/figure-gfm/bestmodel-1.png)<!-- --> We can
-also visualize the adjusted *R*<sup>2</sup> for different best models.
-From the plot below, we know the “best” model with highest adjusted
-*R*<sup>2</sup> is the one with three predictors, **Food**, **Decor**,
-and **East**.
+also visualize the adjusted $R^2$ for different best models. From the
+plot below, we know the “best” model with highest adjusted $R^2$ is the
+one with three predictors, **Food**, **Decor**, and **East**.
 
 ``` r
 plot(allsubs, scale = 'adjr')
@@ -420,16 +419,13 @@ nyctest <- read_csv('https://raw.githubusercontent.com/YuxiaoLuo/r_analysis_dri_
 ```
 
     ## New names:
-    ## * `` -> ...1
-
     ## Rows: 18 Columns: 6
-    ## -- Column specification --------------------------------------------------------
-    ## Delimiter: ","
-    ## chr (2): Restaurant, East
-    ## dbl (4): Price, Food, Decor, Service
-    ## 
-    ## i Use `spec()` to retrieve the full column specification for this data.
-    ## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+    ## ── Column specification
+    ## ──────────────────────────────────────────────────────── Delimiter: "," chr
+    ## (2): Restaurant, East dbl (4): Price, Food, Decor, Service
+    ## ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
+    ## Specify the column types or set `show_col_types = FALSE` to quiet this message.
+    ## • `` -> `...1`
 
 ``` r
 glimpse(nyctest)
@@ -437,12 +433,12 @@ glimpse(nyctest)
 
     ## Rows: 18
     ## Columns: 6
-    ## $ Restaurant <chr> "Daniella Ristorante", "Villa Berulia", "Chianti", "Paper M~
-    ## $ Price      <dbl> 43, 45, 43, 43, 58, 54, 31, 50, 46, 50, 39, 43, 45, 40, 23,~
-    ## $ Food       <dbl> 22, 22, 20, 19, 24, 18, 19, 21, 23, 22, 19, 19, 20, 19, 20,~
-    ## $ Decor      <dbl> 18, 18, 16, 17, 21, 16, 16, 18, 19, 18, 18, 18, 17, 19, 14,~
-    ## $ Service    <dbl> 20, 23, 18, 17, 23, 15, 17, 21, 23, 21, 18, 21, 21, 18, 16,~
-    ## $ East       <chr> "West", "East", "East", "East", "East", "East", "East", "Ea~
+    ## $ Restaurant <chr> "Daniella Ristorante", "Villa Berulia", "Chianti", "Paper M…
+    ## $ Price      <dbl> 43, 45, 43, 43, 58, 54, 31, 50, 46, 50, 39, 43, 45, 40, 23,…
+    ## $ Food       <dbl> 22, 22, 20, 19, 24, 18, 19, 21, 23, 22, 19, 19, 20, 19, 20,…
+    ## $ Decor      <dbl> 18, 18, 16, 17, 21, 16, 16, 18, 19, 18, 18, 18, 17, 19, 14,…
+    ## $ Service    <dbl> 20, 23, 18, 17, 23, 15, 17, 21, 23, 21, 18, 21, 21, 18, 16,…
+    ## $ East       <chr> "West", "East", "East", "East", "East", "East", "East", "Ea…
 
 Let’s first create a model using the `nyc` restaurant data (training
 dataset). Then, we can find point predictions and 99% prediction
@@ -484,7 +480,7 @@ preds <- as_tibble(preds) %>% mutate(actualPrice = nyctest$Price)
 preds
 ```
 
-    ## # A tibble: 18 x 4
+    ## # A tibble: 18 × 4
     ##      fit   lwr   upr actualPrice
     ##    <dbl> <dbl> <dbl>       <dbl>
     ##  1  44.4  29.5  59.4          43
@@ -561,11 +557,11 @@ summary(lm_nyc_int)
 
 ## Reference
 
--   Many of content are adapted from the Workshops by [Victor
-    Pena](https://vicpena.github.io/).
+- Many of content are adapted from the Workshops by [Victor
+  Pena](https://vicpena.github.io/).
 
--   Sheather, Simon. *A modern approach to regression with R*. Springer
-    Science & Business Media, 2009.
+- Sheather, Simon. *A modern approach to regression with R*. Springer
+  Science & Business Media, 2009.
 
--   Multiple and logistic regression, Datacamp course by [Ben
-    Baumer](https://beanumber.github.io/www/).
+- Multiple and logistic regression, Datacamp course by [Ben
+  Baumer](https://beanumber.github.io/www/).
