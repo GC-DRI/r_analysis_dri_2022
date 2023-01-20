@@ -1,6 +1,6 @@
-# R Data Analysis Workshop DRI 2022
+# R Data Analysis Workshop DRI 2022/2023 
 
-Welcome! This is the R data analysis workshop DRI 2022. Please find the topic the related tutorial below. 
+Welcome! This is the R data analysis workshop DRI 2022/2023. Please find the topic the related tutorial below. Last update is on Jan 20, 2023. 
 
 - [Data Wrangling](https://github.com/GC-DRI/r_data_analysis_2021/blob/main/data-wrangling.md) ([R Script](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/data_wrangling_analysis.R))
 
