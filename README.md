@@ -2,7 +2,7 @@
 
 Welcome! This is the R data analysis workshop DRI 2022. Please find the topic the related tutorial below. 
 
-- [Data Wrangling](https://github.com/GC-DRI/r_data_analysis_2021/blob/main/data-wrangling.md)
+- [Data Wrangling](https://github.com/GC-DRI/r_data_analysis_2021/blob/main/data-wrangling.md) ([R Script](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/data_wrangling_analysis.R))
 
 - Data Analysis
 
@@ -19,12 +19,12 @@ Welcome! This is the R data analysis workshop DRI 2022. Please find the topic th
 
 - [Dataset](https://github.com/YuxiaoLuo/r_analysis_dri_2022/tree/main/data): 
   
-  - NYC Restaurant 
+  - [NYC Restaurant](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/data/nyc.csv) ([data description](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/data/meta_nyc.md)) 
   
-  - Spotify 
+  - [Spotify](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/data/spotify.csv) ([data description](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/data/meta_spotify.md)) 
   
-  - Titanic 
+  - [Titanic](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/data/titanic_train.csv) ([data description](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/data/meta_spotify.md)) 
   
-  - Genius
+  - [Genius](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/data/genius.csv) 
 
 [\[>>>Enter\]](https://github.com/GC-DRI/r_data_analysis_2021)
