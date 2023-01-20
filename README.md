@@ -19,12 +19,15 @@ Welcome! This is the R data analysis workshop DRI 2022. Please find the topic th
 
 - [Dataset](https://github.com/YuxiaoLuo/r_analysis_dri_2022/tree/main/data): 
   
-  - [NYC Restaurant](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/data/nyc.csv) ([data description](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/data/meta_nyc.md)) 
+  - [nyc restaurant](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/data/nyc.csv) ([data description](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/data/meta_nyc.md)) 
   
-  - [Spotify](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/data/spotify.csv) ([data description](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/data/meta_spotify.md)) 
+  - [spotify](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/data/spotify.csv) ([data description](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/data/meta_spotify.md)) 
   
-  - [Titanic](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/data/titanic_train.csv) ([data description](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/data/meta_spotify.md)) 
+  - [genius](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/data/genius.csv) ([data description](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/data/meta_genius.md))
+
+  - cars from `caret` package ([data description](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/data/meta_cars.md))
   
-  - [Genius](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/data/genius.csv) 
+  - [titanic](https://github.com/YuxiaoLuo/r_analysis_dri_2022/blob/main/data/titanic_train.csv) 
+
 
 [\[>>>Enter\]](https://github.com/GC-DRI/r_data_analysis_2021)
