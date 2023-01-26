@@ -149,7 +149,7 @@ lyrics_no_stop %>%
   geom_col() + 
   labs(y = NULL,
        title = "Words Frequency in Buck Meek's Songs")
-          
+
 #############
 # Exercise 
 
@@ -196,17 +196,3 @@ wordcloud2(data=spotify_no_stop, size=.2,
 wordcloud2(data = spotify_wordcloud, size = .8, color = 'random-light')
 
 ###########################################################################
-
-
-
-
-
-
-
-
-
-
-
-
-
-

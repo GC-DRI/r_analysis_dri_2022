@@ -192,7 +192,7 @@ independent variable in the analysis.
         The BIC resolves this problem by introducing a penalty term for
         the number of parameters in the model. The penalty term is
         larger in BIC than in AIC.
-    -   When picking from several models, ones with
+    -   When picking from several models, the one with minimum BIC is preferred [reference](https://onlinelibrary.wiley.com/doi/pdf/10.1002/9781118856406.app5). 
     -   Mathematical detail is
         [here](https://www.immagic.com/eLibrary/ARCHIVES/GENERAL/WIKIPEDI/W120607B.pdf).
 
