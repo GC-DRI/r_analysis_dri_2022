@@ -398,17 +398,19 @@ the plot below, we know the best model is the one with two predictors,
 plot(allsubs)
 ```
 
-![](model_selection_files/figure-gfm/bestmodel-1.png)<!-- --> We can
-also visualize the adjusted $R^2$ for different best models. From the
-plot below, we know the “best” model with highest adjusted $R^2$ is the
-one with three predictors, **Food**, **Decor**, and **East**.
+![](model_selection_files/figure-gfm/bestmodel-1.png)<!-- -->
+
+We can also visualize the adjusted $R^2$ for different best models. From
+the plot below, we know the “best” model with highest adjusted $R^2$ is
+the one with three predictors, **Food**, **Decor**, and **East**.
 
 ``` r
 plot(allsubs, scale = 'adjr')
 ```
 
-![](model_selection_files/figure-gfm/r-squared-1.png)<!-- --> \###
-Prediction
+![](model_selection_files/figure-gfm/r-squared-1.png)<!-- -->
+
+### Prediction
 
 Now we can try to use the model to predict the **Price** in a testing
 dataset, which has some data of Italian restaurants not included in the

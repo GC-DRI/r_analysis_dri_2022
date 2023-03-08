@@ -138,11 +138,13 @@ Let's visualize the BIC scores of the best models in each group with a fixed num
 ```{r bestmodel}
 plot(allsubs)
 ```
+
 We can also visualize the adjusted $R^2$ for different best models. From the plot below, we know the "best" model with highest adjusted $R^2$ is the one with three predictors, **Food**, **Decor**, and **East**.
 
 ```{r r-squared}
 plot(allsubs, scale = 'adjr')
 ```
+
 ### Prediction 
 
 Now we can try to use the model to predict the **Price** in a testing dataset, which has some data of Italian restaurants not included in the nyc restaurant dataset. 
