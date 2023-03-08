@@ -103,9 +103,10 @@ nycplot <- nyc %>% select(-Case, -Restaurant, -East)
 ggpairs(nycplot)
 ```
 
-![](model_selection_files/figure-gfm/explore_ggpairs-1.png)<!-- --> Now,
-let’s construct a regression model to predict **Price** using all the
-other variables as predictors.
+![](model_selection_files/figure-gfm/explore_ggpairs-1.png)<!-- -->
+
+Now, let’s construct a regression model to predict **Price** using all
+the other variables as predictors.
 
 ``` r
 lm_nyc <- lm(Price ~ Food + Decor + Service + East, data = nyc)
@@ -345,7 +346,7 @@ step(lm_nyc, direction = 'backward', k = log(n))
 ### All subsets selection using `leaps`
 
 If you want to find the ‘best’ model among a set of variables based on
-BIC or adjusted R^2, you can use library `leaps`.
+BIC or adjusted $R^2$, you can use library `leaps`.
 
 ``` r
 #library(leaps)
@@ -380,7 +381,7 @@ will coincide with the sample goal, that is, smallest residual sum of
 squares.
 ([AIC](https://www.statisticshowto.com/akaikes-information-criterion/),
 [Adjusted
-$R^2$](https://www.statisticshowto.com/probability-and-statistics/statistics-definitions/adjusted-r2/))
+R^2](https://www.statisticshowto.com/probability-and-statistics/statistics-definitions/adjusted-r2/))
 
 The overall “best” model is the one selected from the 4 “best” model for
 a fixed number of independent variables. We can use either AIC or BIC to
@@ -513,8 +514,9 @@ ggplot(preds, mapping = aes(x = fit, y = actualPrice)) +
   geom_smooth(method = 'lm', se = FALSE)
 ```
 
-![](model_selection_files/figure-gfm/plot_prediction-1.png)<!-- --> \###
-Interaction terms
+![](model_selection_files/figure-gfm/plot_prediction-1.png)<!-- -->
+
+### Interaction terms
 
 An interaction occurs when an independent variable has a different
 effect on the outcome depending on the values of another independent
@@ -556,6 +558,10 @@ summary(lm_nyc_int)
     ## Residual standard error: 5.701 on 144 degrees of freedom
     ## Multiple R-squared:  0.648,  Adjusted R-squared:  0.6358 
     ## F-statistic: 53.02 on 5 and 144 DF,  p-value: < 2.2e-16
+
+From the result, we see the interaction term `Decor:Service` (p =
+0.4549) is not significant. We can reach the conclusion that there is no
+interaction effect of `Decor` and `Service` on `Price`.
 
 ## Reference
 

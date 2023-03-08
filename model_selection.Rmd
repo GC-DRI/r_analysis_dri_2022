@@ -63,6 +63,7 @@ Note that scatterplot matrices can only show numerical variables (continuous & d
 nycplot <- nyc %>% select(-Case, -Restaurant, -East)
 ggpairs(nycplot)
 ```
+
 Now, let's construct a regression model to predict **Price** using all the other variables as predictors. 
 
 ```{r regression}
@@ -121,7 +122,7 @@ step(lm_nyc, direction = 'backward', k = log(n))
 
 ### All subsets selection using `leaps`
 
-If you want to find the 'best' model among a set of variables based on BIC or adjusted R^2, you can use library `leaps`.
+If you want to find the 'best' model among a set of variables based on BIC or adjusted $R^2$, you can use library `leaps`.
 
 ```{r leaps}
 #library(leaps)
@@ -129,7 +130,7 @@ allsubs <- regsubsets(Price ~ Food + Decor + Service + East, data = nyc)
 summary(allsubs)
 ```
 
-From the table, we know that if the model only contains one predictor, the one with `Decor` will has the smallest RSS (residual sum of squares). If the model only contains two predictors, the one with `Food` and `Decor` will have the smallest RSS. If the model only contains three predictors, the one with `Food`, `Decor`, and `East` will have the smallest RSS. In each group of models that have a fixed number of predictors, the best model is selected based on AIC, BIC, and RSS, which will coincide with the sample goal, that is, smallest residual sum of squares. ([AIC](https://www.statisticshowto.com/akaikes-information-criterion/), [Adjusted $R^2$](https://www.statisticshowto.com/probability-and-statistics/statistics-definitions/adjusted-r2/))
+From the table, we know that if the model only contains one predictor, the one with `Decor` will has the smallest RSS (residual sum of squares). If the model only contains two predictors, the one with `Food` and `Decor` will have the smallest RSS. If the model only contains three predictors, the one with `Food`, `Decor`, and `East` will have the smallest RSS. In each group of models that have a fixed number of predictors, the best model is selected based on AIC, BIC, and RSS, which will coincide with the sample goal, that is, smallest residual sum of squares. ([AIC](https://www.statisticshowto.com/akaikes-information-criterion/), [Adjusted R^2](https://www.statisticshowto.com/probability-and-statistics/statistics-definitions/adjusted-r2/))
 
 The overall "best" model is the one selected from the 4 "best" model for a fixed number of independent variables. We can use either AIC or BIC to select the "best" model because these two measures penalize model sizes (# of variables) differently. Specifically, the penalty for AIC is smaller and it prefers model with more variables. 
 
@@ -170,6 +171,7 @@ The output of the `predict` function is a matrix, we can transfer it to the data
 preds <- as_tibble(preds) %>% mutate(actualPrice = nyctest$Price)
 preds
 ```
+
 Then, we can plot both the predictions and actual data. The result shows a positive relation between the predicted value and actual price. 
 
 ```{r plot_prediction, message=FALSE}
@@ -177,6 +179,7 @@ ggplot(preds, mapping = aes(x = fit, y = actualPrice)) +
   geom_point() + 
   geom_smooth(method = 'lm', se = FALSE)
 ```
+
 ### Interaction terms
 
 An interaction occurs when an independent variable has a different
@@ -189,6 +192,8 @@ lm_nyc_int <- lm(Price ~ Food + Decor + Service + East + Decor*Service,
                  data = nyc)
 summary(lm_nyc_int)
 ```
+
+From the result, we see the interaction term `Decor:Service` (p = 0.4549) is not significant. We can reach the conclusion that there is no interaction effect of `Decor` and `Service` on `Price`. 
 
 ## Reference
 
